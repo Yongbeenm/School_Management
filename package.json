@@ -1,0 +1,28 @@
+{
+  "name": "school-management-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Production-style School Management System monorepo",
+  "packageManager": "npm@11.12.1",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspace @school/shared && npm run build --workspace @school/types && npm run build --workspace @school/validation && npm run build --workspace @school/database && npm run build --workspace @school/api && npm run build --workspace @school/web",
+    "dev": "concurrently -n api,web -c cyan,magenta \"npm run dev --workspace @school/api\" \"npm run dev --workspace @school/web\"",
+    "dev:api": "npm run dev --workspace @school/api",
+    "dev:web": "npm run dev --workspace @school/web",
+    "db:generate": "npm run generate --workspace @school/database",
+    "db:migrate": "npm run migrate:dev --workspace @school/database",
+    "db:seed": "npm run seed --workspace @school/database",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "npm run typecheck --workspace @school/api && npm run typecheck --workspace @school/web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}

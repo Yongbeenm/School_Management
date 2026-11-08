@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+@theme {
+  /* Existing teal utilities are the app's primary action color. */
+  --color-teal-50: #eef6ff;
+  --color-teal-100: #d9ebff;
+  --color-teal-300: #9acbff;
+  --color-teal-500: #2180e6;
+  --color-teal-600: #126fcf;
+  --color-teal-700: #0867c7;
+  --color-teal-800: #0b56aa;
+  --color-teal-900: #113e75;
+}
+
+:root {
+  --background: #f5fafb;
+  --foreground: #102641;
+  --brand: #0867c7;
+  --brand-dark: #0b56aa;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family:
+    Inter,
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+::selection {
+  background: #cfe7ff;
+  color: #102641;
+}
+
+.school-app {
+  background: var(--background);
+}
+
+.school-app :is(input, select, textarea):not([type='checkbox']) {
+  min-height: 2.5rem;
+}
+
+.school-app :is(input, select, textarea):focus-visible,
+.school-app :is(button, a):focus-visible {
+  outline: 2px solid #0867c7;
+  outline-offset: 2px;
+}
+
+.school-app table thead {
+  background: #f7fafc;
+}
+
+.school-app table th {
+  font-weight: 700;
+  color: #52657a;
+}
+
+.school-app table tbody tr:hover {
+  background: #f4f9fd;
+}
+
+.academic-detail > :only-child {
+  grid-column: 1 / -1;
+}

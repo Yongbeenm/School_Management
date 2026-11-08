@@ -1,0 +1,30 @@
+{
+  "name": "@school/database",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "generate": "prisma generate --schema prisma/schema.prisma",
+    "prisma:local": "node --env-file=../../.env ../../node_modules/prisma/build/index.js",
+    "migrate:dev": "npm run prisma:local -- migrate dev --schema prisma/schema.prisma",
+    "migrate:deploy": "npm run prisma:local -- migrate deploy --schema prisma/schema.prisma",
+    "seed": "npm run prisma:local -- db seed --schema prisma/schema.prisma",
+    "seed:demo": "tsx --env-file=../../.env prisma/demo-seed.ts",
+    "studio": "prisma studio --schema prisma/schema.prisma"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
+  "dependencies": {
+    "@prisma/client": "6.19.0"
+  },
+  "devDependencies": {
+    "argon2": "^0.41.1",
+    "prisma": "6.19.0",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3"
+  }
+}

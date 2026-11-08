@@ -1,0 +1,11 @@
+'use client';
+
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
+import { Bell, ChevronLeft } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { apiFetch, apiJson } from '@/lib/api';
+import { useAuth } from '@/providers/auth-provider';
+type Notification = { id: string; title: string; message: string; type: string; isRead: boolean; createdAt: string };
+export default function NotificationsPage() { const router = useRouter(); const client = useQueryClient(); const { user, isLoading } = useAuth(); useEffect(() => { if (!isLoading && !user) router.replace('/auth/login'); }, [isLoading, router, user]); const notifications = useQuery({ queryKey: ['notifications'], queryFn: () => apiFetch<Notification[]>('/notifications'), enabled: Boolean(user) }); const read = useMutation({ mutationFn: (id: string) => apiJson(`/notifications/${id}/read`, 'PATCH'), onSuccess: () => void client.invalidateQueries({ queryKey: ['notifications'] }) }); if (!user) return <main className="p-8">Loading…</main>; return <main className="min-h-screen bg-slate-50 p-5 md:p-8"><div className="mx-auto max-w-3xl"><button className="mb-6 inline-flex items-center gap-2 text-sm font-medium text-teal-700" onClick={() => router.back()}><ChevronLeft size={16}/>Back</button><h1 className="flex items-center gap-2 text-3xl font-semibold"><Bell className="text-teal-700"/>Notifications</h1><div className="mt-6 grid gap-3">{notifications.data?.length ? notifications.data.map((item) => <article className={`rounded-xl border p-5 ${item.isRead ? 'border-slate-200 bg-white' : 'border-teal-300 bg-teal-50'}`} key={item.id}><div className="flex justify-between gap-4"><div><h2 className="font-semibold">{item.title}</h2><p className="mt-1 text-sm text-slate-700">{item.message}</p><p className="mt-3 text-xs text-slate-500">{new Date(item.createdAt).toLocaleString()} · {item.type}</p></div>{!item.isRead && <Button className="shrink-0" onClick={() => read.mutate(item.id)}>Mark read</Button>}</div></article>) : <p className="rounded-xl bg-white p-5 text-sm text-slate-500">You have no notifications.</p>}</div></div></main>; }
